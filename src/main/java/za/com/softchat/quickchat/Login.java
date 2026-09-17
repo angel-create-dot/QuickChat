@@ -46,6 +46,8 @@ public class Login {
      * [Online] Available at:
      * https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html
      * [Accessed 17 September 2026].
+     * @param cellNumber the cell phone number entered by the user
+     * @return true if the number starts with +27 followed by nine digits 
      */
     public boolean checkCellPhoneNumber(String cellNumber) {
         return cellNumber.matches("^\\+27[0-9]{9}$");
@@ -73,8 +75,16 @@ public class Login {
 
         return "User registered successfully.";
     }
+
     public boolean loginUser(String username, String password) {
-    return username.equals(registeredUsername)
-            && password.equals(registeredPassword);
-}
+        return username.equals(registeredUsername)
+                && password.equals(registeredPassword);
+    }
+
+    public String returnLoginStatus(boolean loginSuccess) {
+        if (loginSuccess) {
+            return "Welcome " + firstName + ", " + lastName + " it is great to see you.";
+        }
+        return "Username or password incorrect, please try again.";
+    }
 }
