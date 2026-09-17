@@ -9,10 +9,11 @@ package za.com.softchat.quickchat;
  * @author Angel
  */
 public class Login {
-private String registeredUsername;
-private String registeredPassword;
-private String firstName;
-private String lastName;
+
+    private String registeredUsername;
+    private String registeredPassword;
+    private String firstName;
+    private String lastName;
 
     public boolean checkUserName(String username) {
         return username.contains("_") && username.length() <= 5;
@@ -49,26 +50,31 @@ private String lastName;
     public boolean checkCellPhoneNumber(String cellNumber) {
         return cellNumber.matches("^\\+27[0-9]{9}$");
     }
+
     public String registerUser(String firstName, String lastName,
-        String username, String password, String cellNumber) {
+            String username, String password, String cellNumber) {
 
-    if (!checkUserName(username)) {
-        return "Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters in length.";
+        if (!checkUserName(username)) {
+            return "Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters in length.";
+        }
+
+        if (!checkPasswordComplexity(password)) {
+            return "Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.";
+        }
+
+        if (!checkCellPhoneNumber(cellNumber)) {
+            return "Cell phone number incorrectly formatted or does not contain international code.";
+        }
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.registeredUsername = username;
+        this.registeredPassword = password;
+
+        return "User registered successfully.";
     }
-
-    if (!checkPasswordComplexity(password)) {
-        return "Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.";
-    }
-
-    if (!checkCellPhoneNumber(cellNumber)) {
-        return "Cell phone number incorrectly formatted or does not contain international code.";
-    }
-
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.registeredUsername = username;
-    this.registeredPassword = password;
-
-    return "User registered successfully.";
+    public boolean loginUser(String username, String password) {
+    return username.equals(registeredUsername)
+            && password.equals(registeredPassword);
 }
 }
