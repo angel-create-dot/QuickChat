@@ -33,4 +33,16 @@ public class Login {
 
         return password.length() >= 8 && hasCapital && hasNumber && hasSpecial;
     }
+
+    /**
+     * Validates a South African cell phone number.
+     *
+     * Regular expression syntax adapted from: Oracle, 2023. Class Pattern.
+     * [Online] Available at:
+     * https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html
+     * [Accessed 17 September 2026].
+     */
+    public boolean checkCellPhoneNumber(String cellNumber) {
+        return cellNumber.matches("^\\+27[0-9]{9}$");
+    }
 }
