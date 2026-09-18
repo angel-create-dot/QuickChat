@@ -66,6 +66,7 @@ Available at: https://junit.org/junit5/docs/current/user-guide/
 Oracle, 2023. *Class Pattern*. [Online]  
 Available at: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html  
 [Accessed 18 September 2026].
+## Code's functionality
 what I have built is the registration and login feature called Quick Chat where students sign up with their details, the system verifies it against the set rules and I the details don't meet the standard the user is prompted again or an error message is typed when the rules are not met it will not pass to another stage. to test my code i deliberately typed and the output should be password incorrect even even  i entered wrong username or first name that should be the same output 
 
 
