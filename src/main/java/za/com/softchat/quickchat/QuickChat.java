@@ -125,6 +125,29 @@ public class QuickChat {
                                 String messageHash = (messageID.substring(0, 2) + ":" + i + ":"
                                         + firstWord + lastWord).toUpperCase();
                                 System.out.println("Message Hash: " + messageHash);
+                                String sendChoice = "";
+                                while (!sendChoice.equals("1") && !sendChoice.equals("2")
+                                        && !sendChoice.equals("3")) {
+                                    System.out.println("1) Send Message");
+                                    System.out.println("2) Disregard Message");
+                                    System.out.println("3) Store Message to send later");
+                                    System.out.print("Choose an option: ");
+                                    sendChoice = input.nextLine().trim();
+
+                                    if (sendChoice.equals("1")) {
+                                        System.out.println("Message successfully sent.");
+                                    } else if (sendChoice.equals("2")) {
+                                        String deleteKey = "";
+                                        while (!deleteKey.equals("0")) {
+                                            System.out.println("Press 0 to delete the message.");
+                                            deleteKey = input.nextLine().trim();
+                                        }
+                                    } else if (sendChoice.equals("3")) {
+                                        System.out.println("Message successfully stored.");
+                                    } else {
+                                        System.out.println("Invalid option, please enter 1, 2 or 3.");
+                                    }
+                                }
                                 messagesEntered++;
                             }
                         }
