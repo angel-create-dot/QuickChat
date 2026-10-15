@@ -118,7 +118,13 @@ public class QuickChat {
                                 String randomDigits = String.valueOf(10_000_000_000_000L
                                         + (long) (Math.random() * 90_000_000_000_000L));
                                 String messageID = randomDigits.substring(0, 10);
-                                System.out.println("Message ID generated: " + messageID);                                
+                                System.out.println("Message ID generated: " + messageID);
+                                String[] words = messageText.trim().split("\\s+");
+                                String firstWord = words[0].replaceAll("[^A-Za-z0-9]", "");
+                                String lastWord = words[words.length - 1].replaceAll("[^A-Za-z0-9]", "");
+                                String messageHash = (messageID.substring(0, 2) + ":" + i + ":"
+                                        + firstWord + lastWord).toUpperCase();
+                                System.out.println("Message Hash: " + messageHash);
                                 messagesEntered++;
                             }
                         }
