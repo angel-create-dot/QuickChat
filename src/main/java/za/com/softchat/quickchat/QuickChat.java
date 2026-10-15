@@ -115,6 +115,10 @@ public class QuickChat {
                                         System.out.println("Message ready to send.");
                                     }
                                 }
+                                String randomDigits = String.valueOf(10_000_000_000_000L
+                                        + (long) (Math.random() * 90_000_000_000_000L));
+                                String messageID = randomDigits.substring(0, 10);
+                                System.out.println("Message ID generated: " + messageID);                                
                                 messagesEntered++;
                             }
                         }
