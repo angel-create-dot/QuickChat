@@ -71,6 +71,7 @@ public class QuickChat {
                 }
                 System.out.println("You can enter " + numberOfMessages + " message(s).");
                 System.out.println();
+                int messagesEntered = 0;
                 String choice = "";
                 while (!choice.equals("3")) {
                     System.out.println();
@@ -81,7 +82,19 @@ public class QuickChat {
                     choice = input.nextLine().trim();
 
                     if (choice.equals("1")) {
-                        System.out.println("Send Messages selected.");
+                        if (messagesEntered >= numberOfMessages) {
+                            System.out.println("You have already entered all " + numberOfMessages + " message(s).");
+                        } else {
+                            for (int i = messagesEntered; i < numberOfMessages; i++) {
+                                System.out.println();
+                                System.out.println("--- Message number " + i + " ---");
+                                System.out.print("Enter the recipient's cell number: ");
+                                String recipient = input.nextLine().trim();
+                                System.out.print("Enter your message: ");
+                                String messageText = input.nextLine();
+                                messagesEntered++;
+                            }
+                        }
                     } else if (choice.equals("2")) {
                         System.out.println("Coming Soon.");
                     } else if (choice.equals("3")) {
