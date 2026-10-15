@@ -149,7 +149,13 @@ public class QuickChat {
                                             deleteKey = input.nextLine().trim();
                                         }
                                     } else if (sendChoice.equals("3")) {
-                                        System.out.println("Message successfully stored.");
+                                        Message storedMessage = new Message(messageID, i,
+                                                recipient, messageText, messageHash);
+                                        if (storedMessage.storeMessage()) {
+                                            System.out.println("Message successfully stored.");
+                                        } else {
+                                            System.out.println("Message could not be stored.");
+                                        }
                                     } else {
                                         System.out.println("Invalid option, please enter 1, 2 or 3.");
                                     }
