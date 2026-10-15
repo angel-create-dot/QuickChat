@@ -100,8 +100,21 @@ public class QuickChat {
                                         System.out.println("Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.");
                                     }
                                 }
-                                System.out.print("Enter your message: ");
-                                String messageText = input.nextLine();
+                                String messageText = "";
+                                boolean validMessage = false;
+                                while (!validMessage) {
+                                    System.out.print("Enter your message: ");
+                                    messageText = input.nextLine();
+                                    if (messageText.trim().isEmpty()) {
+                                        System.out.println("Message cannot be empty.");
+                                    } else if (messageText.length() > 250) {
+                                        System.out.println("Message exceeds 250 characters by "
+                                                + (messageText.length() - 250) + "; please reduce the size.");
+                                    } else {
+                                        validMessage = true;
+                                        System.out.println("Message ready to send.");
+                                    }
+                                }
                                 messagesEntered++;
                             }
                         }
