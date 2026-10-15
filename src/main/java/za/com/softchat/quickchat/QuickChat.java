@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 /**
  * Console application for the QuickChat registration and login feature.
+ *
  * @author Angel Qosha ST10533417
  */
 public class QuickChat {
@@ -52,6 +53,11 @@ public class QuickChat {
 
             boolean loginSuccess = login.loginUser(loginUsername, loginPassword);
             System.out.println(login.returnLoginStatus(loginSuccess));
+
+            if (loginSuccess) {
+                System.out.println();
+                System.out.println("Welcome to QuickChat.");
+            }
         }
     }
 }
