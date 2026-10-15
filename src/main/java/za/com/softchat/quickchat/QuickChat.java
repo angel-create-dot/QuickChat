@@ -88,8 +88,18 @@ public class QuickChat {
                             for (int i = messagesEntered; i < numberOfMessages; i++) {
                                 System.out.println();
                                 System.out.println("--- Message number " + i + " ---");
-                                System.out.print("Enter the recipient's cell number: ");
-                                String recipient = input.nextLine().trim();
+                                String recipient = "";
+                                boolean validRecipient = false;
+                                while (!validRecipient) {
+                                    System.out.print("Enter the recipient's cell number: ");
+                                    recipient = input.nextLine().trim();
+                                    validRecipient = login.checkCellPhoneNumber(recipient);
+                                    if (validRecipient) {
+                                        System.out.println("Cell phone number successfully captured.");
+                                    } else {
+                                        System.out.println("Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.");
+                                    }
+                                }
                                 System.out.print("Enter your message: ");
                                 String messageText = input.nextLine();
                                 messagesEntered++;
