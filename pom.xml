@@ -10,7 +10,12 @@
         <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>za.com.softchat.quickchat.QuickChat</exec.mainClass>
     </properties>
-    <dependencies>
+    <dependencies>    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.11.0</version>
+    </dependency>
+
     <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
