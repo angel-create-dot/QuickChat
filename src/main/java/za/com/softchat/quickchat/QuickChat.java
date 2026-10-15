@@ -136,6 +136,10 @@ public class QuickChat {
 
                                     if (sendChoice.equals("1")) {
                                         System.out.println("Message successfully sent.");
+                                                                             System.out.println("Message ID: " + messageID);
+                                        System.out.println("Message Hash: " + messageHash);
+                                        System.out.println("Recipient: " + recipient);
+                                        System.out.println("Message: " + messageText);   
                                     } else if (sendChoice.equals("2")) {
                                         String deleteKey = "";
                                         while (!deleteKey.equals("0")) {
