@@ -57,6 +57,20 @@ public class QuickChat {
             if (loginSuccess) {
                 System.out.println();
                 System.out.println("Welcome to QuickChat.");
+                int numberOfMessages = 0;
+                while (numberOfMessages < 1) {
+                    System.out.print("How many messages do you wish to enter? ");
+                    try {
+                        numberOfMessages = Integer.parseInt(input.nextLine().trim());
+                    } catch (NumberFormatException e) {
+                        numberOfMessages = 0;
+                    }
+                    if (numberOfMessages < 1) {
+                        System.out.println("Please enter a whole number of 1 or more.");
+                    }
+                }
+                System.out.println("You can enter " + numberOfMessages + " message(s).");
+                System.out.println();
                 String choice = "";
                 while (!choice.equals("3")) {
                     System.out.println();
