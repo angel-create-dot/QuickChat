@@ -28,36 +28,30 @@ public class Message {
     /**
      * Creates a message with all of its details.
      */
+    /**
+     * Creates a message; the message hash is created automatically.
+     */
     public Message(String messageID, int messageNumber, String recipient,
-            String messageText, String messageHash) {
+            String messageText) {
         this.messageID = messageID;
         this.messageNumber = messageNumber;
         this.recipient = recipient;
         this.messageText = messageText;
-        this.messageHash = messageHash;
+        this.messageHash = createMessageHash();
     }
-
-    public String getMessageID() {
-        return messageID;
+    /**
+     * Creates the message hash: first two digits of the ID, the message number,
+     * then the first and last words of the message, all in capital letters.
+     *
+     * @return the message hash, for example 00:0:HITONIGHT
+     */
+    public String createMessageHash() {
+        String[] words = messageText.trim().split("\\s+");
+        String firstWord = words[0].replaceAll("[^A-Za-z0-9]", "");
+        String lastWord = words[words.length - 1].replaceAll("[^A-Za-z0-9]", "");
+        return (messageID.substring(0, 2) + ":" + messageNumber + ":"
+                + firstWord + lastWord).toUpperCase();
     }
-
-    public int getMessageNumber() {
-        return messageNumber;
-    }
-
-    public String getRecipient() {
-        return recipient;
-    }
-
-    public String getMessageText() {
-        return messageText;
-    }
-
-    public String getMessageHash() {
-        return messageHash;
-
-    }
-
     /**
      * Stores this message in the JSON file so it can be sent later. The
      * existing stored messages are read first so none are overwritten. Adapted
