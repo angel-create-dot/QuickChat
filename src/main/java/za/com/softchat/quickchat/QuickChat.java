@@ -57,6 +57,25 @@ public class QuickChat {
             if (loginSuccess) {
                 System.out.println();
                 System.out.println("Welcome to QuickChat.");
+                String choice = "";
+                while (!choice.equals("3")) {
+                    System.out.println();
+                    System.out.println("1) Send Messages");
+                    System.out.println("2) Show recently sent messages");
+                    System.out.println("3) Quit");
+                    System.out.print("Choose an option: ");
+                    choice = input.nextLine().trim();
+
+                    if (choice.equals("1")) {
+                        System.out.println("Send Messages selected.");
+                    } else if (choice.equals("2")) {
+                        System.out.println("Coming Soon.");
+                    } else if (choice.equals("3")) {
+                        System.out.println("Goodbye.");
+                    } else {
+                        System.out.println("Invalid option, please enter 1, 2 or 3.");
+                    }
+                }
             }
         }
     }
