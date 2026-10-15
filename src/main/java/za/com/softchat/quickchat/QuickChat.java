@@ -71,6 +71,7 @@ public class QuickChat {
                 }
                 System.out.println("You can enter " + numberOfMessages + " message(s).");
                 System.out.println();
+                int totalMessagesSent = 0;
                 int messagesEntered = 0;
                 String choice = "";
                 while (!choice.equals("3")) {
@@ -136,10 +137,11 @@ public class QuickChat {
 
                                     if (sendChoice.equals("1")) {
                                         System.out.println("Message successfully sent.");
-                                                                             System.out.println("Message ID: " + messageID);
+                                        System.out.println("Message ID: " + messageID);
                                         System.out.println("Message Hash: " + messageHash);
                                         System.out.println("Recipient: " + recipient);
-                                        System.out.println("Message: " + messageText);   
+                                        System.out.println("Message: " + messageText);
+                                        totalMessagesSent++;
                                     } else if (sendChoice.equals("2")) {
                                         String deleteKey = "";
                                         while (!deleteKey.equals("0")) {
@@ -154,6 +156,8 @@ public class QuickChat {
                                 }
                                 messagesEntered++;
                             }
+                            System.out.println();
+                            System.out.println("Total number of messages sent: " + totalMessagesSent);
                         }
                     } else if (choice.equals("2")) {
                         System.out.println("Coming Soon.");
