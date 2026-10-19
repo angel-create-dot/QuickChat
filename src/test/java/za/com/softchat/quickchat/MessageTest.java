@@ -58,4 +58,39 @@ public class MessageTest {
         assertEquals("Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.",
                 message.checkRecipientCell());
     }
+
+    @Test
+    public void testMessageSentOptionSend() {
+        Message message = new Message("0012345678", 0, "+27718693002",
+                "Hi Mike, can you join us for dinner tonight?");
+        assertEquals("Message successfully sent.", message.sentMessage(1));
+    }
+
+    @Test
+    public void testMessageSentOptionDisregard() {
+        Message message = new Message("0012345678", 0, "+27718693002",
+                "Hi Mike, can you join us for dinner tonight?");
+        assertEquals("Press 0 to delete the message.", message.sentMessage(2));
+    }
+
+    @Test
+    public void testMessageSentOptionStore() {
+        Message message = new Message("0012345678", 0, "+27718693002",
+                "Hi Mike, can you join us for dinner tonight?");
+        assertEquals("Message successfully stored.", message.sentMessage(3));
+    }
+
+    @Test
+    public void testMessageIDWithinTenCharacters() {
+        Message message = new Message("0012345678", 0, "+27718693002",
+                "Hi Mike, can you join us for dinner tonight?");
+        assertTrue(message.checkMessageID());
+    }
+
+    @Test
+    public void testMessageIDLongerThanTenCharacters() {
+        Message message = new Message("00123456789", 0, "+27718693002",
+                "Hi Mike, can you join us for dinner tonight?");
+        assertFalse(message.checkMessageID());
+    }
 }
