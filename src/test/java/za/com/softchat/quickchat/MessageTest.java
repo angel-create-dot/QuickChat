@@ -1,5 +1,5 @@
 package za.com.softchat.quickchat;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,6 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class MessageTest {
 
+    /**
+     * Clears the sent messages before every test so the tests do not affect each other.
+     */
+    @BeforeEach
+    public void resetSentMessages() {
+        Message.clearSentMessages();
+    }
     @Test
     public void testMessageHashTestCase1() {
         Message message = new Message("0012345678", 0, "+27718693002",
