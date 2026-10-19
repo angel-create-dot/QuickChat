@@ -18,16 +18,14 @@ import java.util.List;
  */
 public class Message {
 
+    private static final String STORAGE_FILE = "storedMessages.json";
+
     private final String messageID;
     private final int messageNumber;
     private final String recipient;
     private final String messageText;
     private final String messageHash;
-    private static final String STORAGE_FILE = "storedMessages.json";
 
-    /**
-     * Creates a message with all of its details.
-     */
     /**
      * Creates a message; the message hash is created automatically.
      */
@@ -39,6 +37,36 @@ public class Message {
         this.messageText = messageText;
         this.messageHash = createMessageHash();
     }
+
+    public String getMessageID() {
+        return messageID;
+    }
+
+    public int getMessageNumber() {
+        return messageNumber;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public String getMessageText() {
+        return messageText;
+    }
+
+    public String getMessageHash() {
+        return messageHash;
+    }
+
+    /**
+     * Checks that the message ID is not more than ten characters long.
+     *
+     * @return true if the message ID is valid
+     */
+    public boolean checkMessageID() {
+        return messageID.length() <= 10;
+    }
+
     /**
      * Creates the message hash: first two digits of the ID, the message number,
      * then the first and last words of the message, all in capital letters.
@@ -52,6 +80,7 @@ public class Message {
         return (messageID.substring(0, 2) + ":" + messageNumber + ":"
                 + firstWord + lastWord).toUpperCase();
     }
+
     /**
      * Stores this message in the JSON file so it can be sent later. The
      * existing stored messages are read first so none are overwritten. Adapted

@@ -119,12 +119,11 @@ public class QuickChat {
                                 String randomDigits = String.valueOf(10_000_000_000_000L
                                         + (long) (Math.random() * 90_000_000_000_000L));
                                 String messageID = randomDigits.substring(0, 10);
-                                System.out.println("Message ID generated: " + messageID);
-                                String[] words = messageText.trim().split("\\s+");
-                                String firstWord = words[0].replaceAll("[^A-Za-z0-9]", "");
-                                String lastWord = words[words.length - 1].replaceAll("[^A-Za-z0-9]", "");
-                                String messageHash = (messageID.substring(0, 2) + ":" + i + ":"
-                                        + firstWord + lastWord).toUpperCase();
+                                Message message = new Message(messageID, i, recipient, messageText);
+                                String messageHash = message.getMessageHash();
+                                if (message.checkMessageID()) {
+                                    System.out.println("Message ID generated: " + message.getMessageID());
+                                }
                                 System.out.println("Message Hash: " + messageHash);
                                 String sendChoice = "";
                                 while (!sendChoice.equals("1") && !sendChoice.equals("2")
@@ -149,9 +148,7 @@ public class QuickChat {
                                             deleteKey = input.nextLine().trim();
                                         }
                                     } else if (sendChoice.equals("3")) {
-                                        Message storedMessage = new Message(messageID, i,
-                                                recipient, messageText, messageHash);
-                                        if (storedMessage.storeMessage()) {
+                                        if (message.storeMessage()) {
                                             System.out.println("Message successfully stored.");
                                         } else {
                                             System.out.println("Message could not be stored.");

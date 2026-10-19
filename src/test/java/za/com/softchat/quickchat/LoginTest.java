@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the Login class.
+ *
  * @author Angel Qosha ST10533417
  */
 public class LoginTest {
