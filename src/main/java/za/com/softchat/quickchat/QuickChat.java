@@ -71,7 +71,7 @@ public class QuickChat {
                 }
                 System.out.println("You can enter " + numberOfMessages + " message(s).");
                 System.out.println();
-                int totalMessagesSent = 0;
+
                 int messagesEntered = 0;
                 String choice = "";
                 while (!choice.equals("3")) {
@@ -133,12 +133,12 @@ public class QuickChat {
                                     sendChoice = input.nextLine().trim();
 
                                     if (sendChoice.equals("1")) {
-                                        System.out.println("Message successfully sent.");
-                                        System.out.println("Message ID: " + messageID);
-                                        System.out.println("Message Hash: " + messageHash);
-                                        System.out.println("Recipient: " + recipient);
-                                        System.out.println("Message: " + messageText);
-                                        totalMessagesSent++;
+                                        message.addToSentMessages();
+                                        System.out.println(message.sentMessage(1));
+                                        System.out.println("Message ID: " + message.getMessageID());
+                                        System.out.println("Message Hash: " + message.getMessageHash());
+                                        System.out.println("Recipient: " + message.getRecipient());
+                                        System.out.println("Message: " + message.getMessageText());
                                     } else if (sendChoice.equals("2")) {
                                         String deleteKey = "";
                                         while (!deleteKey.equals("0")) {
@@ -158,7 +158,7 @@ public class QuickChat {
                                 messagesEntered++;
                             }
                             System.out.println();
-                            System.out.println("Total number of messages sent: " + totalMessagesSent);
+                            System.out.println("Total number of messages sent: " + Message.returnTotalMessages());
                         }
                     } else if (choice.equals("2")) {
                         System.out.println("Coming Soon.");
