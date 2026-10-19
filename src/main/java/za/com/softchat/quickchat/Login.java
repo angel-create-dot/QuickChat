@@ -46,8 +46,9 @@ public class Login {
      * [Online] Available at:
      * https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html
      * [Accessed 17 September 2026].
+     *
      * @param cellNumber the cell phone number entered by the user
-     * @return true if the number starts with +27 followed by nine digits 
+     * @return true if the number starts with +27 followed by nine digits
      */
     public boolean checkCellPhoneNumber(String cellNumber) {
         return cellNumber.matches("^\\+27[0-9]{9}$");
