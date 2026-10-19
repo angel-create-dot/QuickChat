@@ -133,6 +133,24 @@ public class Message {
     }
 
     /**
+     * Returns the details of all messages sent while the program is running, in
+     * the order: Message ID, Message Hash, Recipient, Message.
+     *
+     * @return the details of every sent message, or an empty String if none
+     * were sent
+     */
+    public static String printMessages() {
+        StringBuilder allMessages = new StringBuilder();
+        for (Message sent : sentMessages) {
+            allMessages.append("Message ID: ").append(sent.messageID).append("\n");
+            allMessages.append("Message Hash: ").append(sent.messageHash).append("\n");
+            allMessages.append("Recipient: ").append(sent.recipient).append("\n");
+            allMessages.append("Message: ").append(sent.messageText).append("\n\n");
+        }
+        return allMessages.toString();
+    }
+
+    /**
      * Clears the list of sent messages (used to reset the state between unit
      * tests).
      */
