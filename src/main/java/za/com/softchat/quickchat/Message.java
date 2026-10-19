@@ -67,6 +67,17 @@ public class Message {
     public boolean checkMessageID() {
         return messageID.length() <= 10;
     }
+        /**
+     * Generates a random 10-digit message ID. A longer random number is created
+     * as text and the first ten digits are taken with substring.
+     *
+     * @return a 10-digit message ID
+     */
+    public static String generateMessageID() {
+        String randomDigits = String.valueOf(10_000_000_000_000L
+                + (long) (Math.random() * 90_000_000_000_000L));
+        return randomDigits.substring(0, 10);
+    }
 
     /**
      * Checks the recipient's cell number by reusing the Login cell number

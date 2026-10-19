@@ -114,9 +114,7 @@ public class QuickChat {
                                         validMessage = lengthResult.equals("Message ready to send.");
                                     }
                                 }
-                                String randomDigits = String.valueOf(10_000_000_000_000L
-                                        + (long) (Math.random() * 90_000_000_000_000L));
-                                String messageID = randomDigits.substring(0, 10);
+                                String messageID = Message.generateMessageID();
                                 Message message = new Message(messageID, i, recipient, messageText);
                                 String messageHash = message.getMessageHash();
                                 if (message.checkMessageID()) {
