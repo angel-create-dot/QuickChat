@@ -1,4 +1,5 @@
 package za.com.softchat.quickchat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,12 +12,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MessageTest {
 
     /**
-     * Clears the sent messages before every test so the tests do not affect each other.
+     * Clears the sent messages before every test so the tests do not affect
+     * each other.
      */
     @BeforeEach
     public void resetSentMessages() {
         Message.clearSentMessages();
     }
+
     @Test
     public void testMessageHashTestCase1() {
         Message message = new Message("0012345678", 0, "+27718693002",
@@ -99,5 +102,19 @@ public class MessageTest {
         Message message = new Message("00123456789", 0, "+27718693002",
                 "Hi Mike, can you join us for dinner tonight?");
         assertFalse(message.checkMessageID());
+    }
+
+    @Test
+    public void testGeneratedMessageIDIsCreated() {
+        String messageID = Message.generateMessageID();
+        assertEquals(10, messageID.length());
+        assertTrue(messageID.matches("\\d{10}"));
+        assertEquals("Message ID generated: " + messageID,
+                "Message ID generated: " + messageID);
+    }
+
+    @Test
+    public void testGeneratedMessageIDsAreDifferent() {
+        assertNotEquals(Message.generateMessageID(), Message.generateMessageID());
     }
 }

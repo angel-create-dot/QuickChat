@@ -67,7 +67,8 @@ public class Message {
     public boolean checkMessageID() {
         return messageID.length() <= 10;
     }
-        /**
+
+    /**
      * Generates a random 10-digit message ID. A longer random number is created
      * as text and the first ten digits are taken with substring.
      *
