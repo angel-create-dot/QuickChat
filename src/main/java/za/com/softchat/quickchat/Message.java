@@ -98,6 +98,23 @@ public class Message {
     }
 
     /**
+     * Returns the response for the option the user chose for this message.
+     *
+     * @param sendOption 1 = send, 2 = disregard, 3 = store
+     * @return the matching message, or an error message for any other option
+     */
+    public String sentMessage(int sendOption) {
+        if (sendOption == 1) {
+            return "Message successfully sent.";
+        } else if (sendOption == 2) {
+            return "Press 0 to delete the message.";
+        } else if (sendOption == 3) {
+            return "Message successfully stored.";
+        }
+        return "Invalid option, please enter 1, 2 or 3.";
+    }
+
+    /**
      * Creates the message hash: first two digits of the ID, the message number,
      * then the first and last words of the message, all in capital letters.
      *
