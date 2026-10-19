@@ -66,7 +66,18 @@ public class Message {
     public boolean checkMessageID() {
         return messageID.length() <= 10;
     }
-
+    /**
+     * Checks the recipient's cell number by reusing the Login cell number check.
+     *
+     * @return the capture message if the number is valid, otherwise the error message
+     */
+    public String checkRecipientCell() {
+        Login login = new Login();
+        if (login.checkCellPhoneNumber(recipient)) {
+            return "Cell phone number successfully captured.";
+        }
+        return "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.";
+    }
     /**
      * Creates the message hash: first two digits of the ID, the message number,
      * then the first and last words of the message, all in capital letters.
