@@ -66,10 +66,13 @@ public class Message {
     public boolean checkMessageID() {
         return messageID.length() <= 10;
     }
+
     /**
-     * Checks the recipient's cell number by reusing the Login cell number check.
+     * Checks the recipient's cell number by reusing the Login cell number
+     * check.
      *
-     * @return the capture message if the number is valid, otherwise the error message
+     * @return the capture message if the number is valid, otherwise the error
+     * message
      */
     public String checkRecipientCell() {
         Login login = new Login();
@@ -78,11 +81,13 @@ public class Message {
         }
         return "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.";
     }
-        /**
+
+    /**
      * Checks that a message is not more than 250 characters long.
      *
      * @param messageText the message to check
-     * @return "Message ready to send." or how many characters the message is over by
+     * @return "Message ready to send." or how many characters the message is
+     * over by
      */
     public static String checkMessageLength(String messageText) {
         int excess = messageText.length() - MAX_MESSAGE_LENGTH;
@@ -91,6 +96,7 @@ public class Message {
         }
         return "Message ready to send.";
     }
+
     /**
      * Creates the message hash: first two digits of the ID, the message number,
      * then the first and last words of the message, all in capital letters.
