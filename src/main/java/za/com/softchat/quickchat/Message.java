@@ -20,6 +20,7 @@ public class Message {
 
     private static final String STORAGE_FILE = "storedMessages.json";
     private static final int MAX_MESSAGE_LENGTH = 250;
+    private static final List<Message> sentMessages = new ArrayList<>();
     private final String messageID;
     private final int messageNumber;
     private final String recipient;
@@ -112,6 +113,31 @@ public class Message {
             return "Message successfully stored.";
         }
         return "Invalid option, please enter 1, 2 or 3.";
+    }
+
+    /**
+     * Adds this message to the list of messages sent while the program is
+     * running.
+     */
+    public void addToSentMessages() {
+        sentMessages.add(this);
+    }
+
+    /**
+     * Returns the total number of messages sent while the program is running.
+     *
+     * @return the number of sent messages
+     */
+    public static int returnTotalMessages() {
+        return sentMessages.size();
+    }
+
+    /**
+     * Clears the list of sent messages (used to reset the state between unit
+     * tests).
+     */
+    public static void clearSentMessages() {
+        sentMessages.clear();
     }
 
     /**
