@@ -19,7 +19,7 @@ import java.util.List;
 public class Message {
 
     private static final String STORAGE_FILE = "storedMessages.json";
-
+    private static final int MAX_MESSAGE_LENGTH = 250;
     private final String messageID;
     private final int messageNumber;
     private final String recipient;
@@ -77,6 +77,19 @@ public class Message {
             return "Cell phone number successfully captured.";
         }
         return "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.";
+    }
+        /**
+     * Checks that a message is not more than 250 characters long.
+     *
+     * @param messageText the message to check
+     * @return "Message ready to send." or how many characters the message is over by
+     */
+    public static String checkMessageLength(String messageText) {
+        int excess = messageText.length() - MAX_MESSAGE_LENGTH;
+        if (excess > 0) {
+            return "Message exceeds 250 characters by " + excess + "; please reduce the size.";
+        }
+        return "Message ready to send.";
     }
     /**
      * Creates the message hash: first two digits of the ID, the message number,
