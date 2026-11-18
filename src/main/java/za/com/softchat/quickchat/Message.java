@@ -303,32 +303,44 @@ public class Message {
     }
 
     /**
-     * Searches the stored messages for a message ID.
+     * Combines the sent and stored messages so they can be searched together.
+     *
+     * @return every sent and stored message
+     */
+    private static List<Message> getSentAndStoredMessages() {
+        List<Message> allMessages = new ArrayList<>(sentMessages);
+        allMessages.addAll(storedMessages);
+        return allMessages;
+    }
+
+    /**
+     * Searches the sent and stored messages for a message ID.
      *
      * @param searchID the message ID to look for
      * @return the recipient and message for that ID, or a notice if it is not
      * found
      */
     public static String searchByMessageID(String searchID) {
-        for (Message stored : storedMessages) {
-            if (stored.messageID.equals(searchID)) {
-                return "Recipient: " + stored.recipient + " | Message: " + stored.messageText;
+        for (Message found : getSentAndStoredMessages()) {
+            if (found.messageID.equals(searchID)) {
+                return "Recipient: " + found.recipient + " | Message: " + found.messageText;
             }
         }
         return "Message ID not found.";
     }
 
     /**
-     * Searches the stored messages for every message sent to a recipient.
+     * Searches the sent and stored messages for every message sent to a
+     * recipient.
      *
      * @param searchRecipient the recipient's cell number
      * @return every matching message, or a notice if there are none
      */
     public static String searchByRecipient(String searchRecipient) {
         StringBuilder result = new StringBuilder();
-        for (Message stored : storedMessages) {
-            if (stored.recipient.equals(searchRecipient)) {
-                result.append(stored.messageText).append("\n");
+        for (Message found : getSentAndStoredMessages()) {
+            if (found.recipient.equals(searchRecipient)) {
+                result.append(found.messageText).append("\n");
             }
         }
         if (result.length() == 0) {
