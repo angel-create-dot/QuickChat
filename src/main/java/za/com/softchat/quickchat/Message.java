@@ -249,6 +249,24 @@ public class Message {
     }
 
     /**
+     * Returns the sender and recipient of every stored message.
+     *
+     * @param senderName the name of the logged-in user who stored the messages
+     * @return one line per stored message, or a notice if there are none
+     */
+    public static String displaySenderAndRecipient(String senderName) {
+        if (storedMessages.isEmpty()) {
+            return "No stored messages found.";
+        }
+        StringBuilder result = new StringBuilder();
+        for (Message stored : storedMessages) {
+            result.append("Sender: ").append(senderName)
+                    .append(" | Recipient: ").append(stored.recipient).append("\n");
+        }
+        return result.toString();
+    }
+
+    /**
      * Creates the message hash: first two digits of the ID, the message number,
      * then the first and last words of the message, all in capital letters.
      *

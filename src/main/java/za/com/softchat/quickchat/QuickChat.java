@@ -166,11 +166,31 @@ public class QuickChat {
                     } else if (choice.equals("3")) {
                         System.out.println("Goodbye.");
                     } else if (choice.equals("4")) {
-                        if (Message.loadStoredMessages()) {
-                            System.out.println("Stored messages loaded: "
-                                    + Message.getStoredMessages().size());
-                        } else {
+                        if (!Message.loadStoredMessages()) {
                             System.out.println("Stored messages could not be read.");
+                        } else {
+                            String storedChoice = "";
+                            while (!storedChoice.equals("7")) {
+                                System.out.println();
+                                System.out.println("--- Stored Messages ---");
+                                System.out.println("1) Display sender and recipient of all stored messages");
+                                System.out.println("2) Display the longest stored message");
+                                System.out.println("3) Search for a message ID");
+                                System.out.println("4) Search for all messages stored for a recipient");
+                                System.out.println("5) Delete a message using the message hash");
+                                System.out.println("6) Display a report of all stored messages");
+                                System.out.println("7) Back to the main menu");
+                                System.out.print("Choose an option: ");
+                                storedChoice = input.nextLine().trim();
+
+                                if (storedChoice.equals("1")) {
+                                    System.out.println(Message.displaySenderAndRecipient(firstName + " " + lastName));
+                                } else if (storedChoice.equals("7")) {
+                                    System.out.println("Returning to the main menu.");
+                                } else {
+                                    System.out.println("Invalid option, please enter 1 to 7.");
+                                }
+                            }
                         }
                     } else {
                         System.out.println("Invalid option, please enter 1, 2, 3 or 4.");
