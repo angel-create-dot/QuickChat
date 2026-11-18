@@ -21,6 +21,10 @@ public class Message {
     private static final String STORAGE_FILE = "storedMessages.json";
     private static final int MAX_MESSAGE_LENGTH = 250;
     private static final List<Message> sentMessages = new ArrayList<>();
+    private static final List<Message> disregardedMessages = new ArrayList<>();
+    private static final List<Message> storedMessages = new ArrayList<>();
+    private static final List<String> messageHashes = new ArrayList<>();
+    private static final List<String> messageIDs = new ArrayList<>();
     private final String messageID;
     private final int messageNumber;
     private final String recipient;
@@ -168,6 +172,40 @@ public class Message {
      */
     public static void clearSentMessages() {
         sentMessages.clear();
+    }
+
+    /**
+     * Adds this message to the list of disregarded messages.
+     */
+    public void addToDisregardedMessages() {
+        disregardedMessages.add(this);
+    }
+
+    /**
+     * Adds this message to the list of stored messages.
+     */
+    public void addToStoredMessages() {
+        storedMessages.add(this);
+    }
+
+    /**
+     * Records this message's ID and hash in the message ID and message hash
+     * lists.
+     */
+    public void recordMessageIDAndHash() {
+        messageIDs.add(messageID);
+        messageHashes.add(messageHash);
+    }
+
+    /**
+     * Clears every message list (used to reset the state between unit tests).
+     */
+    public static void clearAllMessages() {
+        sentMessages.clear();
+        disregardedMessages.clear();
+        storedMessages.clear();
+        messageHashes.clear();
+        messageIDs.clear();
     }
 
     /**
