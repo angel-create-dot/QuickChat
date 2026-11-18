@@ -185,6 +185,8 @@ public class QuickChat {
 
                                 if (storedChoice.equals("1")) {
                                     System.out.println(Message.displaySenderAndRecipient(firstName + " " + lastName));
+                                } else if (storedChoice.equals("2")) {
+                                    System.out.println("Longest stored message: " + Message.displayLongestMessage());
                                 } else if (storedChoice.equals("7")) {
                                     System.out.println("Returning to the main menu.");
                                 } else {

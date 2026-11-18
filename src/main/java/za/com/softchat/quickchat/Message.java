@@ -267,6 +267,24 @@ public class Message {
     }
 
     /**
+     * Finds the longest message in the stored messages array.
+     *
+     * @return the longest stored message, or a notice if there are none
+     */
+    public static String displayLongestMessage() {
+        if (storedMessages.isEmpty()) {
+            return "No stored messages found.";
+        }
+        Message longest = storedMessages.get(0);
+        for (Message stored : storedMessages) {
+            if (stored.messageText.length() > longest.messageText.length()) {
+                longest = stored;
+            }
+        }
+        return longest.messageText;
+    }
+
+    /**
      * Creates the message hash: first two digits of the ID, the message number,
      * then the first and last words of the message, all in capital letters.
      *
