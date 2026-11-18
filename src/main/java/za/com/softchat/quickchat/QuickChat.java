@@ -79,6 +79,7 @@ public class QuickChat {
                     System.out.println("1) Send Messages");
                     System.out.println("2) Show recently sent messages");
                     System.out.println("3) Quit");
+                    System.out.println("4) Stored Messages");
                     System.out.print("Choose an option: ");
                     choice = input.nextLine().trim();
 
@@ -164,8 +165,15 @@ public class QuickChat {
                         System.out.println("Coming Soon.");
                     } else if (choice.equals("3")) {
                         System.out.println("Goodbye.");
+                    } else if (choice.equals("4")) {
+                        if (Message.loadStoredMessages()) {
+                            System.out.println("Stored messages loaded: "
+                                    + Message.getStoredMessages().size());
+                        } else {
+                            System.out.println("Stored messages could not be read.");
+                        }
                     } else {
-                        System.out.println("Invalid option, please enter 1, 2 or 3.");
+                        System.out.println("Invalid option, please enter 1, 2, 3 or 4.");
                     }
                 }
             }
