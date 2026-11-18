@@ -220,13 +220,13 @@ public class Message {
      */
     public static boolean loadStoredMessages() {
         storedMessages.clear();
-        File storageFile = new File(storageFile);
-        if (!storageFile.exists()) {
+        File jsonFile = new File(storageFile);
+        if (!jsonFile.exists()) {
             return true;
         }
 
         Gson gson = new Gson();
-        try (FileReader reader = new FileReader(storageFile)) {
+        try (FileReader reader = new FileReader(jsonFile)) {
             Type listType = new TypeToken<List<Message>>() {
             }.getType();
             List<Message> messagesInFile = gson.fromJson(reader, listType);
