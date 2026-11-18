@@ -199,6 +199,8 @@ public class QuickChat {
                                     System.out.print("Enter the message hash to delete: ");
                                     String deleteHash = input.nextLine().trim();
                                     System.out.println(Message.deleteByMessageHash(deleteHash));
+                                } else if (storedChoice.equals("6")) {
+                                    System.out.println(Message.displayReport());
                                 } else if (storedChoice.equals("7")) {
                                     System.out.println("Returning to the main menu.");
                                 } else {
