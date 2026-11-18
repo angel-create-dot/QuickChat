@@ -249,6 +249,24 @@ public class Message {
     }
 
     /**
+     * Returns a copy of the sent messages array.
+     *
+     * @return the sent messages
+     */
+    public static List<Message> getSentMessages() {
+        return new ArrayList<>(sentMessages);
+    }
+
+    /**
+     * Returns a copy of the disregarded messages array.
+     *
+     * @return the disregarded messages
+     */
+    public static List<Message> getDisregardedMessages() {
+        return new ArrayList<>(disregardedMessages);
+    }
+
+    /**
      * Returns the sender and recipient of every stored message.
      *
      * @param senderName the name of the logged-in user who stored the messages
@@ -298,6 +316,62 @@ public class Message {
             }
         }
         return "Message ID not found.";
+    }
+
+    /**
+     * Searches the stored messages for every message sent to a recipient.
+     *
+     * @param searchRecipient the recipient's cell number
+     * @return every matching message, or a notice if there are none
+     */
+    public static String searchByRecipient(String searchRecipient) {
+        StringBuilder result = new StringBuilder();
+        for (Message stored : storedMessages) {
+            if (stored.recipient.equals(searchRecipient)) {
+                result.append(stored.messageText).append("\n");
+            }
+        }
+        if (result.length() == 0) {
+            return "No stored messages found for that recipient.";
+        }
+        return result.toString();
+    }
+
+    /**
+     * Writes the stored messages array back to the JSON file.
+     *
+     * @return true if the file was written, false if it could not be written
+     */
+    private static boolean saveStoredMessages() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(STORAGE_FILE)) {
+            gson.toJson(storedMessages, writer);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Deletes the first stored message that has the given message hash, from
+     * the stored messages array and from the JSON file.
+     *
+     * @param searchHash the message hash of the message to delete
+     * @return a confirmation that the message was deleted, or a notice if not
+     * found
+     */
+    public static String deleteByMessageHash(String searchHash) {
+        for (int i = 0; i < storedMessages.size(); i++) {
+            Message stored = storedMessages.get(i);
+            if (stored.messageHash.equalsIgnoreCase(searchHash)) {
+                storedMessages.remove(i);
+                if (!saveStoredMessages()) {
+                    return "The message could not be deleted from the file.";
+                }
+                return "Message: \"" + stored.messageText + "\" successfully deleted.";
+            }
+        }
+        return "Message hash not found.";
     }
 
     /**
