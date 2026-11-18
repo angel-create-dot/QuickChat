@@ -182,4 +182,43 @@ public class MessageTest {
         assertEquals("Where are you? You are late! I have asked you to be on time.",
                 Message.displayLongestMessage());
     }
+
+    @Test
+    public void testDeleteMessageUsingMessageHash() {
+        Message message2 = testMessage2();
+        message2.addToStoredMessages();
+        testMessage5().addToStoredMessages();
+
+        assertEquals("Message: \"Where are you? You are late! I have asked you to be on time.\" successfully deleted.",
+                Message.deleteByMessageHash(message2.getMessageHash()));
+        assertEquals(1, Message.getStoredMessages().size());
+    }
+
+    @Test
+    public void testDeleteMessageHashNotFound() {
+        assertEquals("Message hash not found.", Message.deleteByMessageHash("99:9:NOTHERE"));
+    }
+
+    @Test
+    public void testDisplayReport() {
+        testMessage2().addToStoredMessages();
+
+        String expected = "=== Stored Messages Report ===\n"
+                + "Message ID: 0000000002\n"
+                + "Message Hash: 00:1:WHERETIME\n"
+                + "Recipient: +27838884567\n"
+                + "Message: Where are you? You are late! I have asked you to be on time.\n\n";
+        assertEquals(expected, Message.displayReport());
+    }
+
+    @Test
+    public void testStoreMessageAndReadJsonFileIntoArray() {
+        assertTrue(testMessage2().storeMessage());
+        assertTrue(testMessage5().storeMessage());
+        assertTrue(Message.loadStoredMessages());
+
+        assertEquals(2, Message.getStoredMessages().size());
+        assertEquals("Ok, I am leaving without you.",
+                Message.getStoredMessages().get(1).getMessageText());
+    }
 }
