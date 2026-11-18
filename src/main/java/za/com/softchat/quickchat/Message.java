@@ -285,6 +285,22 @@ public class Message {
     }
 
     /**
+     * Searches the stored messages for a message ID.
+     *
+     * @param searchID the message ID to look for
+     * @return the recipient and message for that ID, or a notice if it is not
+     * found
+     */
+    public static String searchByMessageID(String searchID) {
+        for (Message stored : storedMessages) {
+            if (stored.messageID.equals(searchID)) {
+                return "Recipient: " + stored.recipient + " | Message: " + stored.messageText;
+            }
+        }
+        return "Message ID not found.";
+    }
+
+    /**
      * Creates the message hash: first two digits of the ID, the message number,
      * then the first and last words of the message, all in capital letters.
      *
