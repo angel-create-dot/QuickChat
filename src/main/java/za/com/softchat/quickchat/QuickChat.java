@@ -195,6 +195,10 @@ public class QuickChat {
                                     System.out.print("Enter the recipient's cell number: ");
                                     String searchRecipient = input.nextLine().trim();
                                     System.out.println(Message.searchByRecipient(searchRecipient));
+                                } else if (storedChoice.equals("5")) {
+                                    System.out.print("Enter the message hash to delete: ");
+                                    String deleteHash = input.nextLine().trim();
+                                    System.out.println(Message.deleteByMessageHash(deleteHash));
                                 } else if (storedChoice.equals("7")) {
                                     System.out.println("Returning to the main menu.");
                                 } else {
