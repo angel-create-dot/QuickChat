@@ -191,6 +191,10 @@ public class QuickChat {
                                     System.out.print("Enter the message ID to search for: ");
                                     String searchID = input.nextLine().trim();
                                     System.out.println(Message.searchByMessageID(searchID));
+                                } else if (storedChoice.equals("4")) {
+                                    System.out.print("Enter the recipient's cell number: ");
+                                    String searchRecipient = input.nextLine().trim();
+                                    System.out.println(Message.searchByRecipient(searchRecipient));
                                 } else if (storedChoice.equals("7")) {
                                     System.out.println("Returning to the main menu.");
                                 } else {
