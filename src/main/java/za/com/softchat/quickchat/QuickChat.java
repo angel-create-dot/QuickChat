@@ -117,6 +117,7 @@ public class QuickChat {
                                 String messageID = Message.generateMessageID();
                                 Message message = new Message(messageID, i, recipient, messageText);
                                 String messageHash = message.getMessageHash();
+                                message.recordMessageIDAndHash();
                                 if (message.checkMessageID()) {
                                     System.out.println("Message ID generated: " + message.getMessageID());
                                 }
@@ -143,6 +144,7 @@ public class QuickChat {
                                             System.out.println("Press 0 to delete the message.");
                                             deleteKey = input.nextLine().trim();
                                         }
+                                        message.addToDisregardedMessages();
                                     } else if (sendChoice.equals("3")) {
                                         if (message.storeMessage()) {
                                             System.out.println("Message successfully stored.");
