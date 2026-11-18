@@ -1,6 +1,8 @@
 package za.com.softchat.quickchat;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import java.io.File;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,9 +17,44 @@ public class MessageTest {
      * Clears the sent messages before every test so the tests do not affect
      * each other.
      */
+    private static final String TEST_FILE = "testStoredMessages.json";
+
+    /**
+     * Clears all message lists and uses a separate JSON file before every test.
+     */
     @BeforeEach
-    public void resetSentMessages() {
-        Message.clearSentMessages();
+    public void resetMessages() {
+        Message.clearAllMessages();
+        Message.setStorageFile(TEST_FILE);
+    }
+
+    /**
+     * Deletes the test JSON file after every test.
+     */
+    @AfterEach
+    public void deleteTestFile() {
+        new File(TEST_FILE).delete();
+    }
+
+    private Message testMessage1() {
+        return new Message("0000000001", 0, "+27834557896", "Did you get the cake?");
+    }
+
+    private Message testMessage2() {
+        return new Message("0000000002", 1, "+27838884567",
+                "Where are you? You are late! I have asked you to be on time.");
+    }
+
+    private Message testMessage3() {
+        return new Message("0000000003", 2, "+27834484567", "Yohoooo, I am at your gate.");
+    }
+
+    private Message testMessage4() {
+        return new Message("0000000004", 3, "0838884567", "It is dinner time!");
+    }
+
+    private Message testMessage5() {
+        return new Message("0000000005", 4, "+27838884567", "Ok, I am leaving without you.");
     }
 
     @Test
@@ -116,5 +153,33 @@ public class MessageTest {
     @Test
     public void testGeneratedMessageIDsAreDifferent() {
         assertNotEquals(Message.generateMessageID(), Message.generateMessageID());
+    }
+
+    @Test
+    public void testSentMessagesArrayCorrectlyPopulated() {
+        testMessage1().addToSentMessages();
+        testMessage4().addToSentMessages();
+
+        assertEquals(2, Message.getSentMessages().size());
+        assertEquals("Did you get the cake?", Message.getSentMessages().get(0).getMessageText());
+        assertEquals("It is dinner time!", Message.getSentMessages().get(1).getMessageText());
+    }
+
+    @Test
+    public void testDisregardedMessagesArrayCorrectlyPopulated() {
+        testMessage3().addToDisregardedMessages();
+
+        assertEquals(1, Message.getDisregardedMessages().size());
+        assertEquals("Yohoooo, I am at your gate.",
+                Message.getDisregardedMessages().get(0).getMessageText());
+    }
+
+    @Test
+    public void testDisplayLongestMessage() {
+        testMessage2().addToStoredMessages();
+        testMessage5().addToStoredMessages();
+
+        assertEquals("Where are you? You are late! I have asked you to be on time.",
+                Message.displayLongestMessage());
     }
 }
