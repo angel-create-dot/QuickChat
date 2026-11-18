@@ -201,20 +201,22 @@ public class Message {
      * Clears every message list (used to reset the state between unit tests).
      */
     public static void clearAllMessages() {
-        
+
         sentMessages.clear();
         disregardedMessages.clear();
         storedMessages.clear();
         messageHashes.clear();
         messageIDs.clear();
     }
+
     /**
      * Reads the messages saved in the JSON file into the stored messages array.
-     * Adapted from the Gson User Guide: Google, n.d. Gson User Guide.
-     * Available at: https://github.com/google/gson/blob/main/UserGuide.md
-     * [Accessed 19 October 2026].
+     * Adapted from the Gson User Guide: Google, n.d. Gson User Guide. Available
+     * at: https://github.com/google/gson/blob/main/UserGuide.md [Accessed 19
+     * October 2026].
      *
-     * @return true if the file was read (or does not exist yet), false if it could not be read
+     * @return true if the file was read (or does not exist yet), false if it
+     * could not be read
      */
     public static boolean loadStoredMessages() {
         storedMessages.clear();
@@ -236,6 +238,16 @@ public class Message {
             return false;
         }
     }
+
+    /**
+     * Returns a copy of the stored messages array.
+     *
+     * @return the stored messages
+     */
+    public static List<Message> getStoredMessages() {
+        return new ArrayList<>(storedMessages);
+    }
+
     /**
      * Creates the message hash: first two digits of the ID, the message number,
      * then the first and last words of the message, all in capital letters.
