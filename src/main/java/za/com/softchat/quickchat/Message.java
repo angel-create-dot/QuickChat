@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class Message {
 
-    private static final String STORAGE_FILE = "storedMessages.json";
+    private static String storageFile = "storedMessages.json";
     private static final int MAX_MESSAGE_LENGTH = 250;
     private static final List<Message> sentMessages = new ArrayList<>();
     private static final List<Message> disregardedMessages = new ArrayList<>();
@@ -220,7 +220,7 @@ public class Message {
      */
     public static boolean loadStoredMessages() {
         storedMessages.clear();
-        File storageFile = new File(STORAGE_FILE);
+        File storageFile = new File(storageFile);
         if (!storageFile.exists()) {
             return true;
         }
@@ -264,6 +264,16 @@ public class Message {
      */
     public static List<Message> getDisregardedMessages() {
         return new ArrayList<>(disregardedMessages);
+    }
+
+    /**
+     * Sets the JSON file used to store messages, so unit tests can use their
+     * own file instead of the real storedMessages.json.
+     *
+     * @param fileName the name of the JSON file to use
+     */
+    public static void setStorageFile(String fileName) {
+        storageFile = fileName;
     }
 
     /**
@@ -356,7 +366,7 @@ public class Message {
      */
     private static boolean saveStoredMessages() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        try (FileWriter writer = new FileWriter(STORAGE_FILE)) {
+        try (FileWriter writer = new FileWriter(storageFile)) {
             gson.toJson(storedMessages, writer);
             return true;
         } catch (IOException e) {
@@ -413,7 +423,7 @@ public class Message {
     public boolean storeMessage() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         List<Message> storedMessages = new ArrayList<>();
-        File storageFile = new File(STORAGE_FILE);
+        File storageFile = new File(storageFile);
 
         try {
             if (storageFile.exists()) {
