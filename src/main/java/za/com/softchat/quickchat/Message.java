@@ -18,9 +18,13 @@ import java.util.List;
  */
 public class Message {
 
-    private static final String STORAGE_FILE = "storedMessages.json";
+    private static String storageFile = "storedMessages.json";
     private static final int MAX_MESSAGE_LENGTH = 250;
     private static final List<Message> sentMessages = new ArrayList<>();
+    private static final List<Message> disregardedMessages = new ArrayList<>();
+    private static final List<Message> storedMessages = new ArrayList<>();
+    private static final List<String> messageHashes = new ArrayList<>();
+    private static final List<String> messageIDs = new ArrayList<>();
     private final String messageID;
     private final int messageNumber;
     private final String recipient;
@@ -171,6 +175,228 @@ public class Message {
     }
 
     /**
+     * Adds this message to the list of disregarded messages.
+     */
+    public void addToDisregardedMessages() {
+        disregardedMessages.add(this);
+    }
+
+    /**
+     * Adds this message to the list of stored messages.
+     */
+    public void addToStoredMessages() {
+        storedMessages.add(this);
+    }
+
+    /**
+     * Records this message's ID and hash in the message ID and message hash
+     * lists.
+     */
+    public void recordMessageIDAndHash() {
+        messageIDs.add(messageID);
+        messageHashes.add(messageHash);
+    }
+
+    /**
+     * Clears every message list (used to reset the state between unit tests).
+     */
+    public static void clearAllMessages() {
+
+        sentMessages.clear();
+        disregardedMessages.clear();
+        storedMessages.clear();
+        messageHashes.clear();
+        messageIDs.clear();
+    }
+
+    /**
+     * Reads the messages saved in the JSON file into the stored messages array.
+     * Adapted from the Gson User Guide: Google, n.d. Gson User Guide. Available
+     * at: https://github.com/google/gson/blob/main/UserGuide.md [Accessed 19
+     * October 2026].
+     *
+     * @return true if the file was read (or does not exist yet), false if it
+     * could not be read
+     */
+    public static boolean loadStoredMessages() {
+        storedMessages.clear();
+        File jsonFile = new File(storageFile);
+        if (!jsonFile.exists()) {
+            return true;
+        }
+
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader(jsonFile)) {
+            Type listType = new TypeToken<List<Message>>() {
+            }.getType();
+            List<Message> messagesInFile = gson.fromJson(reader, listType);
+            if (messagesInFile != null) {
+                storedMessages.addAll(messagesInFile);
+            }
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Returns a copy of the stored messages array.
+     *
+     * @return the stored messages
+     */
+    public static List<Message> getStoredMessages() {
+        return new ArrayList<>(storedMessages);
+    }
+
+    /**
+     * Returns a copy of the sent messages array.
+     *
+     * @return the sent messages
+     */
+    public static List<Message> getSentMessages() {
+        return new ArrayList<>(sentMessages);
+    }
+
+    /**
+     * Returns a copy of the disregarded messages array.
+     *
+     * @return the disregarded messages
+     */
+    public static List<Message> getDisregardedMessages() {
+        return new ArrayList<>(disregardedMessages);
+    }
+
+    /**
+     * Sets the JSON file used to store messages, so unit tests can use their
+     * own file instead of the real storedMessages.json.
+     *
+     * @param fileName the name of the JSON file to use
+     */
+    public static void setStorageFile(String fileName) {
+        storageFile = fileName;
+    }
+
+    /**
+     * Returns the sender and recipient of every stored message.
+     *
+     * @param senderName the name of the logged-in user who stored the messages
+     * @return one line per stored message, or a notice if there are none
+     */
+    public static String displaySenderAndRecipient(String senderName) {
+        if (storedMessages.isEmpty()) {
+            return "No stored messages found.";
+        }
+        StringBuilder result = new StringBuilder();
+        for (Message stored : storedMessages) {
+            result.append("Sender: ").append(senderName)
+                    .append(" | Recipient: ").append(stored.recipient).append("\n");
+        }
+        return result.toString();
+    }
+
+    /**
+     * Finds the longest message in the stored messages array.
+     *
+     * @return the longest stored message, or a notice if there are none
+     */
+    public static String displayLongestMessage() {
+        if (storedMessages.isEmpty()) {
+            return "No stored messages found.";
+        }
+        Message longest = storedMessages.get(0);
+        for (Message stored : storedMessages) {
+            if (stored.messageText.length() > longest.messageText.length()) {
+                longest = stored;
+            }
+        }
+        return longest.messageText;
+    }
+
+    /**
+     * Combines the sent and stored messages so they can be searched together.
+     *
+     * @return every sent and stored message
+     */
+    private static List<Message> getSentAndStoredMessages() {
+        List<Message> allMessages = new ArrayList<>(sentMessages);
+        allMessages.addAll(storedMessages);
+        return allMessages;
+    }
+
+    /**
+     * Searches the sent and stored messages for a message ID.
+     *
+     * @param searchID the message ID to look for
+     * @return the recipient and message for that ID, or a notice if it is not
+     * found
+     */
+    public static String searchByMessageID(String searchID) {
+        for (Message found : getSentAndStoredMessages()) {
+            if (found.messageID.equals(searchID)) {
+                return "Recipient: " + found.recipient + " | Message: " + found.messageText;
+            }
+        }
+        return "Message ID not found.";
+    }
+
+    /**
+     * Searches the sent and stored messages for every message sent to a
+     * recipient.
+     *
+     * @param searchRecipient the recipient's cell number
+     * @return every matching message, or a notice if there are none
+     */
+    public static String searchByRecipient(String searchRecipient) {
+        StringBuilder result = new StringBuilder();
+        for (Message found : getSentAndStoredMessages()) {
+            if (found.recipient.equals(searchRecipient)) {
+                result.append(found.messageText).append("\n");
+            }
+        }
+        if (result.length() == 0) {
+            return "No stored messages found for that recipient.";
+        }
+        return result.toString();
+    }
+
+    /**
+     * Writes the stored messages array back to the JSON file.
+     *
+     * @return true if the file was written, false if it could not be written
+     */
+    private static boolean saveStoredMessages() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(storageFile)) {
+            gson.toJson(storedMessages, writer);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Deletes the first stored message that has the given message hash, from
+     * the stored messages array and from the JSON file.
+     *
+     * @param searchHash the message hash of the message to delete
+     * @return a confirmation that the message was deleted, or a notice if not
+     * found
+     */
+    public static String deleteByMessageHash(String searchHash) {
+        for (int i = 0; i < storedMessages.size(); i++) {
+            Message stored = storedMessages.get(i);
+            if (stored.messageHash.equalsIgnoreCase(searchHash)) {
+                storedMessages.remove(i);
+                if (!saveStoredMessages()) {
+                    return "The message could not be deleted from the file.";
+                }
+                return "Message: \"" + stored.messageText + "\" successfully deleted.";
+            }
+        }
+        return "Message hash not found.";
+    }
+
+    /**
      * Creates the message hash: first two digits of the ID, the message number,
      * then the first and last words of the message, all in capital letters.
      *
@@ -197,10 +423,10 @@ public class Message {
     public boolean storeMessage() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         List<Message> storedMessages = new ArrayList<>();
-        File storageFile = new File(STORAGE_FILE);
+        File jsonFile = new File(storageFile);
 
         try {
-            if (storageFile.exists()) {
+            if (jsonFile.exists()) {
                 try (FileReader reader = new FileReader(storageFile)) {
                     Type listType = new TypeToken<List<Message>>() {
                     }.getType();
@@ -220,5 +446,19 @@ public class Message {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public static String displayReport() {
+        if (storedMessages.isEmpty()) {
+            return "No stored messages found.";
+        }
+        StringBuilder report = new StringBuilder("=== Stored Messages Report ===\n");
+        for (Message stored : storedMessages) {
+            report.append("Message ID: ").append(stored.messageID).append("\n");
+            report.append("Message Hash: ").append(stored.messageHash).append("\n");
+            report.append("Recipient: ").append(stored.recipient).append("\n");
+            report.append("Message: ").append(stored.messageText).append("\n\n");
+        }
+        return report.toString();
     }
 }

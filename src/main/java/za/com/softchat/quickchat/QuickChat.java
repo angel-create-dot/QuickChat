@@ -79,6 +79,7 @@ public class QuickChat {
                     System.out.println("1) Send Messages");
                     System.out.println("2) Show recently sent messages");
                     System.out.println("3) Quit");
+                    System.out.println("4) Stored Messages");
                     System.out.print("Choose an option: ");
                     choice = input.nextLine().trim();
 
@@ -117,6 +118,7 @@ public class QuickChat {
                                 String messageID = Message.generateMessageID();
                                 Message message = new Message(messageID, i, recipient, messageText);
                                 String messageHash = message.getMessageHash();
+                                message.recordMessageIDAndHash();
                                 if (message.checkMessageID()) {
                                     System.out.println("Message ID generated: " + message.getMessageID());
                                 }
@@ -143,6 +145,7 @@ public class QuickChat {
                                             System.out.println("Press 0 to delete the message.");
                                             deleteKey = input.nextLine().trim();
                                         }
+                                        message.addToDisregardedMessages();
                                     } else if (sendChoice.equals("3")) {
                                         if (message.storeMessage()) {
                                             System.out.println("Message successfully stored.");
@@ -162,8 +165,51 @@ public class QuickChat {
                         System.out.println("Coming Soon.");
                     } else if (choice.equals("3")) {
                         System.out.println("Goodbye.");
+                    } else if (choice.equals("4")) {
+                        if (!Message.loadStoredMessages()) {
+                            System.out.println("Stored messages could not be read.");
+                        } else {
+                            String storedChoice = "";
+                            while (!storedChoice.equals("7")) {
+                                System.out.println();
+                                System.out.println("--- Stored Messages ---");
+                                System.out.println("1) Display sender and recipient of all stored messages");
+                                System.out.println("2) Display the longest stored message");
+                                System.out.println("3) Search for a message ID");
+                                System.out.println("4) Search for all messages stored for a recipient");
+                                System.out.println("5) Delete a message using the message hash");
+                                System.out.println("6) Display a report of all stored messages");
+                                System.out.println("7) Back to the main menu");
+                                System.out.print("Choose an option: ");
+                                storedChoice = input.nextLine().trim();
+
+                                if (storedChoice.equals("1")) {
+                                    System.out.println(Message.displaySenderAndRecipient(firstName + " " + lastName));
+                                } else if (storedChoice.equals("2")) {
+                                    System.out.println("Longest stored message: " + Message.displayLongestMessage());
+                                } else if (storedChoice.equals("3")) {
+                                    System.out.print("Enter the message ID to search for: ");
+                                    String searchID = input.nextLine().trim();
+                                    System.out.println(Message.searchByMessageID(searchID));
+                                } else if (storedChoice.equals("4")) {
+                                    System.out.print("Enter the recipient's cell number: ");
+                                    String searchRecipient = input.nextLine().trim();
+                                    System.out.println(Message.searchByRecipient(searchRecipient));
+                                } else if (storedChoice.equals("5")) {
+                                    System.out.print("Enter the message hash to delete: ");
+                                    String deleteHash = input.nextLine().trim();
+                                    System.out.println(Message.deleteByMessageHash(deleteHash));
+                                } else if (storedChoice.equals("6")) {
+                                    System.out.println(Message.displayReport());
+                                } else if (storedChoice.equals("7")) {
+                                    System.out.println("Returning to the main menu.");
+                                } else {
+                                    System.out.println("Invalid option, please enter 1 to 7.");
+                                }
+                            }
+                        }
                     } else {
-                        System.out.println("Invalid option, please enter 1, 2 or 3.");
+                        System.out.println("Invalid option, please enter 1, 2, 3 or 4.");
                     }
                 }
             }
