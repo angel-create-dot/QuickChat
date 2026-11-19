@@ -423,10 +423,10 @@ public class Message {
     public boolean storeMessage() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         List<Message> storedMessages = new ArrayList<>();
-        File storageFile = new File(storageFile);
+        File jsonFile = new File(storageFile);
 
         try {
-            if (storageFile.exists()) {
+            if (jsonFile.exists()) {
                 try (FileReader reader = new FileReader(storageFile)) {
                     Type listType = new TypeToken<List<Message>>() {
                     }.getType();
@@ -446,5 +446,19 @@ public class Message {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public static String displayReport() {
+        if (storedMessages.isEmpty()) {
+            return "No stored messages found.";
+        }
+        StringBuilder report = new StringBuilder("=== Stored Messages Report ===\n");
+        for (Message stored : storedMessages) {
+            report.append("Message ID: ").append(stored.messageID).append("\n");
+            report.append("Message Hash: ").append(stored.messageHash).append("\n");
+            report.append("Recipient: ").append(stored.recipient).append("\n");
+            report.append("Message: ").append(stored.messageText).append("\n\n");
+        }
+        return report.toString();
     }
 }
