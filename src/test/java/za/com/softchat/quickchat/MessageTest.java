@@ -1,8 +1,8 @@
 package za.com.softchat.quickchat;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
 import java.io.File;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,10 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class MessageTest {
 
-    /**
-     * Clears the sent messages before every test so the tests do not affect
-     * each other.
-     */
     private static final String TEST_FILE = "testStoredMessages.json";
 
     /**
@@ -146,13 +142,30 @@ public class MessageTest {
         String messageID = Message.generateMessageID();
         assertEquals(10, messageID.length());
         assertTrue(messageID.matches("\\d{10}"));
-        assertEquals("Message ID generated: " + messageID,
-                "Message ID generated: " + messageID);
     }
 
     @Test
     public void testGeneratedMessageIDsAreDifferent() {
         assertNotEquals(Message.generateMessageID(), Message.generateMessageID());
+    }
+
+    @Test
+    public void testReturnTotalMessagesCountsOnlySentMessages() {
+        testMessage1().addToSentMessages();
+        testMessage3().addToDisregardedMessages();
+
+        assertEquals(1, Message.returnTotalMessages());
+    }
+
+    @Test
+    public void testPrintMessagesShowsSentMessageDetails() {
+        testMessage1().addToSentMessages();
+
+        String expected = "Message ID: 0000000001\n"
+                + "Message Hash: 00:0:DIDCAKE\n"
+                + "Recipient: +27834557896\n"
+                + "Message: Did you get the cake?\n\n";
+        assertEquals(expected, Message.printMessages());
     }
 
     @Test
@@ -181,6 +194,39 @@ public class MessageTest {
 
         assertEquals("Where are you? You are late! I have asked you to be on time.",
                 Message.displayLongestMessage());
+    }
+
+    @Test
+    public void testSearchForMessageID() {
+        testMessage4().addToSentMessages();
+
+        assertEquals("Recipient: 0838884567 | Message: It is dinner time!",
+                Message.searchByMessageID("0000000004"));
+    }
+
+    @Test
+    public void testSearchForMessageIDNotFound() {
+        assertEquals("Message ID not found.", Message.searchByMessageID("0000000009"));
+    }
+
+    @Test
+    public void testSearchAllMessagesForRecipient() {
+        testMessage2().addToStoredMessages();
+        testMessage5().addToStoredMessages();
+
+        assertEquals("Where are you? You are late! I have asked you to be on time.\n"
+                + "Ok, I am leaving without you.\n",
+                Message.searchByRecipient("+27838884567"));
+    }
+
+    @Test
+    public void testDisplaySenderAndRecipient() {
+        testMessage2().addToStoredMessages();
+        testMessage5().addToStoredMessages();
+
+        assertEquals("Sender: Kyle Smith | Recipient: +27838884567\n"
+                + "Sender: Kyle Smith | Recipient: +27838884567\n",
+                Message.displaySenderAndRecipient("Kyle Smith"));
     }
 
     @Test
